@@ -1,6 +1,6 @@
 import pandas as pd
 
-DATABASE = "data/iRATco_Database.xlsx"
+DATABASE = "Data/iRATco_Database.xlsx"
 
 
 def login(username, password):
