@@ -1,18 +1,8 @@
-import pandas as pd
-
-DATABASE = "Data/iRATco_Database.xlsx"
-
+from Modules.data_loader import load_users
 
 def login(username, password):
-    """
-    Mengembalikan data user jika login berhasil.
-    Mengembalikan None jika gagal.
-    """
 
-    users = pd.read_excel(
-        DATABASE,
-        sheet_name="users"
-    )
+    users = load_users()
 
     user = users[
         (users["username"] == username) &
