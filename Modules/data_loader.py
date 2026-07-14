@@ -1,27 +1,20 @@
+from pathlib import Path
 import pandas as pd
 
-USER_FILE = "data/users.xlsx"
-PROJECT_FILE = "data/projects.xlsx"
-MILESTONE_FILE = "data/milestones.xlsx"
-PUBLICATION_FILE = "data/publications.xlsx"
-BUDGET_FILE = "data/budget.xlsx"
-
+BASE_DIR = Path(__file__).resolve().parent.parent
+DATA = BASE_DIR / "Data"
 
 def load_users():
-    return pd.read_excel(USER_FILE)
-
+    return pd.read_excel(DATA / "users.xlsx")
 
 def load_projects():
-    return pd.read_excel(PROJECT_FILE)
-
+    return pd.read_excel(DATA / "projects.xlsx")
 
 def load_milestones():
-    return pd.read_excel(MILESTONE_FILE)
+    return pd.read_excel(DATA / "milestones.xlsx")
 
+def load_budgets():
+    return pd.read_excel(DATA / "budgets.xlsx")
 
-def load_publications():
-    return pd.read_excel(PUBLICATION_FILE)
-
-
-def load_budget():
-    return pd.read_excel(BUDGET_FILE)
+def load_reports():
+    return pd.read_excel(DATA / "reports.xlsx")
