@@ -11,7 +11,7 @@ def login(username, password):
 
     users = pd.read_excel(
         DATABASE,
-        sheet_name="Users"
+        sheet_name="users"
     )
 
     user = users[
