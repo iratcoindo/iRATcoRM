@@ -1,19 +1,20 @@
 import streamlit as st
+from modules.auth import login
 
-from database import (
-    Session,
-    User,
-    verify_password,
-    create_default_admin
-)
-
-create_default_admin()
+# ==========================
+# PAGE CONFIG
+# ==========================
 
 st.set_page_config(
-    page_title="iRATco Research Monitoring",
+    page_title="iRATco Research Management System",
     page_icon="🧬",
-    layout="centered"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
+
+# ==========================
+# SESSION
+# ==========================
 
 if "login" not in st.session_state:
     st.session_state.login = False
@@ -21,31 +22,49 @@ if "login" not in st.session_state:
 if "user" not in st.session_state:
     st.session_state.user = None
 
+# ==========================
+# LOGIN PAGE
+# ==========================
 
 def login_page():
 
-    st.title("🧬 iRATco Research Monitoring")
+    col1, col2, col3 = st.columns([1,2,1])
 
-    st.markdown("### Login")
+    with col2:
 
-    username = st.text_input("Username")
+        st.markdown("<br><br>", unsafe_allow_html=True)
 
-    password = st.text_input(
-        "Password",
-        type="password"
-    )
+        st.markdown(
+            "<h1 style='text-align:center;'>🧬 iRATco RMS</h1>",
+            unsafe_allow_html=True
+        )
 
-    if st.button("Login", use_container_width=True):
+        st.markdown(
+            "<h4 style='text-align:center;color:gray;'>Research Management System</h4>",
+            unsafe_allow_html=True
+        )
 
-        session = Session()
+        st.markdown("---")
 
-        user = session.query(User).filter_by(
-            username=username
-        ).first()
+        username = st.text_input(
+            "Username",
+            placeholder="Enter username"
+        )
 
-        if user:
+        password = st.text_input(
+            "Password",
+            type="password",
+            placeholder="Enter password"
+        )
 
-            if verify_password(password, user.password):
+        if st.button(
+            "LOGIN",
+            use_container_width=True
+        ):
+
+            user = login(username, password)
+
+            if user is not None:
 
                 st.session_state.login = True
                 st.session_state.user = user
@@ -54,33 +73,49 @@ def login_page():
 
             else:
 
-                st.error("Password salah.")
+                st.error("Username atau password salah.")
 
-        else:
+        st.markdown("---")
 
-            st.error("Username tidak ditemukan.")
+        st.caption("Version 1.0")
+        st.caption("© 2026 iRATco Bioceuticals")
 
-        session.close()
-
+# ==========================
+# DASHBOARD
+# ==========================
 
 def dashboard():
 
-    st.success(
-        f"Selamat datang {st.session_state.user.fullname}"
+    st.sidebar.success(
+        f"👤 {st.session_state.user['fullname']}"
     )
 
-    st.write("Role :", st.session_state.user.role)
+    st.sidebar.write(
+        f"Role : {st.session_state.user['role']}"
+    )
 
-    st.info("Versi 0.1")
+    st.sidebar.divider()
 
-    if st.button("Logout"):
+    if st.sidebar.button("Logout"):
 
         st.session_state.login = False
-
         st.session_state.user = None
 
         st.rerun()
 
+    st.title("🏠 Dashboard")
+
+    st.success(
+        f"Welcome, {st.session_state.user['fullname']}"
+    )
+
+    st.write(
+        "Selamat datang di iRATco Research Management System."
+    )
+
+# ==========================
+# MAIN
+# ==========================
 
 if st.session_state.login:
 
