@@ -5,7 +5,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DATA = BASE_DIR / "Data"
 
 def load_users():
-    return pd.read_excel(DATA / "users.xlsx")
+
+    df = pd.read_excel(DATA / "users.xlsx")
+
+    print(df.head())
+    print(df.columns.tolist())
+
+    return df
 
 def load_projects():
     return pd.read_excel(DATA / "projects.xlsx")
