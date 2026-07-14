@@ -1,5 +1,5 @@
 import streamlit as st
-from modules.auth import login
+from Modules.auth import login
 
 # ==========================
 # PAGE CONFIG
